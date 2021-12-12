@@ -1,0 +1,44 @@
+body
+{
+  background-color:#003056;
+}
+h1
+{
+  color: #21c7c5;
+  text-align: center;
+}
+h3
+{
+  color: #CCCCCC;
+  text-align: center;
+}
+.data-container
+{
+  margin-left: -9%;
+  margin-top: 8%;
+  width: 25%;
+}
+.panel,.panel-footer
+{
+  background-color: #05518d;
+  color:#ffffff;
+}
+.panel-heading
+{
+  background-color: #ffffff;
+  color: #a7a7a7;
+}
+.box-line .number
+{
+  width:40%;
+  display: inline;
+  color:#282828;
+}
+#graph-container
+{
+  background-color: #05518d;
+  margin-left: 0;
+   margin-top: 0;
+   height: 700px;
+  
+}
