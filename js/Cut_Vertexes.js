@@ -4,6 +4,7 @@ $vertexes=[];
 $nbCc=0;
 $Nodes=[];
 
+
 var $cy;
 $(document).ready(function(){
   $('#genSommets').keypress(function (e) {
@@ -15,6 +16,14 @@ $(document).ready(function(){
       createNodes();
       initGraph();
     }
+  });
+
+  $("#generer").click(function(){
+    $nbSommets= i=$("#genSommets").val();
+      initMatrix();
+      createNodes();
+      initGraph();
+
   });
 
   $('#sommetDest').keypress(function (e) {
@@ -29,6 +38,30 @@ $(document).ready(function(){
         updateEdges(i,j);
     }
   });
+
+  $('#add').keypress(function (e) {
+    var key = e.which;
+    if(key == 13)  // the enter key code
+     {
+       var i,j;
+        i=$("#sommetSource").val();
+        j=$("#sommetDest").val();
+         $matrixAdj[i-1][j-1]=1;
+         $matrixAdj[j-1][i-1]=1;
+         updateEdges(i,j);
+     }
+   });
+
+   $("#add").click(function(){
+    var i,j;
+        i=$("#sommetSource").val();
+        j=$("#sommetDest").val();
+         $matrixAdj[i-1][j-1]=1;
+         $matrixAdj[j-1][i-1]=1;
+         updateEdges(i,j);
+
+  });
+
   $('#sommetDestSupp').keypress(function (e) {
     var keySupp = e.which;
     if(keySupp == 13)  // the enter key code
@@ -36,14 +69,27 @@ $(document).ready(function(){
        var k,l;
         k=$("#sommetSourceSupp").val();
         l=$("#sommetDestSupp").val();
-         $matrixAdj[k-1][k-1]=0;
-         $matrixAdj[l-1][l-1]=0;
+         $matrixAdj[k-1][l-1]=0;
+         $matrixAdj[l-1][k-1]=0;
          updateEdgesSupp(k,l);
+    
      }
    });
+
+   $("#delete").click(function(){
+    var k,l;
+        k=$("#sommetSourceSupp").val();
+        l=$("#sommetDestSupp").val();
+         $matrixAdj[k-1][l-1]=0;
+         $matrixAdj[l-1][k-1]=0;
+         updateEdgesSupp(k,l);
+         
+  });
+
   $("#valider").click(function(){
     initVertexes();
-    $nbCc=NCC(-1); //Nomre de compasantes connexes au départ
+    $nbCc=0;
+    $nbCc=NCC(-1); //Nombre de composantes connexes au départ
       articulationPoints();
 
   });
@@ -124,12 +170,29 @@ function createNodes(){
         });
     }
 }
+
 function updateEdges(sommetSource,sommetDest){
-  $cy.add({
+ $cy.add({
     group: "edges",
     data: {source:sommetSource,
     target:sommetDest },
 });
+$cy.add({
+  group: "edges",
+  data: {source:sommetDest,
+  target:sommetSource },
+});
+
+}
+
+function updateEdgesSupp($sommetSourceSupp,$sommetDestSupp){
+
+  var edge = $cy.elements('edge[source = "'+$sommetSourceSupp+'"][target = "'+$sommetDestSupp+'"]');
+  var edge2 = $cy.elements('edge[source = "'+$sommetDestSupp+'"][target = "'+$sommetSourceSupp+'"]');
+
+  $cy.remove(edge);
+  $cy.remove(edge2);
+  initVertexes();
 }
 
 
